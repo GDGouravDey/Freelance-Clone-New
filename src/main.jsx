@@ -13,6 +13,7 @@ import Myprojects from "./components/Myprojects.jsx";
 import MyProjects2 from "./components/MyProjects2.jsx";
 import Employer from "./components/Employer.jsx";
 import FindFreelancers from "./components/FindFreelancers.jsx";
+import Market from "./components/Market.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -24,6 +25,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/employer/profile" element={<Employer />} />
         <Route path="/employer/findFreelancers" element={<FindFreelancers />} />
         <Route path="/employer/myProjects" element={<MyProjects2 />} /> 
+        <Route path="/employer/market" element={<Market />} />
         <Route path="/freelancer/profile" element={<Freelancer />} />
         <Route path="/freelancer/resume" element={<Resume />} />
         <Route path="/freelancer/findProjects" element={<Findprojects />} />

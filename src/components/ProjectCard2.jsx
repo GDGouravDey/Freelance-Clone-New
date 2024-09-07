@@ -1,6 +1,7 @@
-import React from 'react';
+import { React, useState } from 'react';
 
-function ProjectCard({ project, className, onClick, matchScore }) {
+
+function ProjectCard2({ project, className, onClick, matchScore, onApply }) {
     const {
         title,
         description,
@@ -12,6 +13,23 @@ function ProjectCard({ project, className, onClick, matchScore }) {
         duration,
         status,
     } = project;
+
+    const [showRateInput, setShowRateInput] = useState(true); // State to control input visibility
+    const [proposedRate, setProposedRate] = useState('');
+
+    const handleApplyClick = () => {
+        // Toggle the visibility of the proposed rate input field
+        setShowRateInput(true);
+    };
+
+    const handleSubmitClick = () => {
+        if (!proposedRate) {
+            alert('Please enter a proposed rate.');
+            return;
+        }
+        onApply(project._id, proposedRate);
+        setShowRateInput(false); // Hide the input field after submitting
+    };
 
     // Function to get background color based on project status
     const getStatusColor = () => {
@@ -85,4 +103,4 @@ function ProjectCard({ project, className, onClick, matchScore }) {
     );
 }
 
-export default ProjectCard;
+export default ProjectCard2;
