@@ -1,4 +1,5 @@
 import Navbar from './Navbar';
+import backgroundImage from '../assets/back.webp';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -98,7 +99,12 @@ const Freelancer = () => {
     return (
         <div className="bg-gray-100 min-h-screen">
             <Navbar />
-            <div className="text-black flex items-center justify-center min-h-[calc(100vh-64px)]">
+            <div className="text-black flex items-center justify-center min-h-[calc(100vh-64px)]" style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+            }}>
                 <div className="w-full max-w-xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
                     <div className="p-4">
                         <div className="mt-4">

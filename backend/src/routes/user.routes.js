@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { verifyJWT } from '../middlewares/auth.middleware.js';
-import { getCurrentUser, getEmployeeByUsername, loginUser, logoutUser, refreshAccessToken, registerUser, updateProfilePicture, updateUser, getEmployeeById, updateEmployeeSkills } from '../controllers/user.controller.js';
+import { getCurrentUser, getEmployeeByUsername, loginUser, logoutUser, refreshAccessToken, registerUser, updateProfilePicture, updateUser, getEmployeeById, updateEmployeeSkills, addSkills } from '../controllers/user.controller.js';
 import { upload } from '../middlewares/multer.middleware.js';
 
 
@@ -26,6 +26,8 @@ router.route('/employee/:employeeId').get(verifyJWT,getEmployeeById);
 router.route('/employee/username/:username').get(verifyJWT, getEmployeeByUsername);
 
 router.route('/employee/:employeeId/skills').patch(verifyJWT,updateEmployeeSkills);
+
+router.route("/add-skill").patch(verifyJWT,addSkills)
 
 
 export default router;

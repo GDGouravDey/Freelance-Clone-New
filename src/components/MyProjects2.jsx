@@ -1,3 +1,4 @@
+import backgroundImage from '../assets/back.webp';
 import React, { useState, useEffect } from 'react';
 import Navbar2 from './Navbar2';
 import ProjectCard from './ProjectCard';
@@ -83,7 +84,12 @@ function MyProjects2() {
     return (
         <div className="bg-gray-100 min-h-screen">
             <Navbar2 />
-            <div className="text-black flex flex-col items-center justify-center min-h-[calc(100vh-64px)]">
+            <div className="text-black flex flex-col items-center justify-center min-h-[calc(100vh-64px)]" style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+            }}>
                 {selectedProjectDetails ? (
                     <ProjectDetail2
                         project={selectedProjectDetails}

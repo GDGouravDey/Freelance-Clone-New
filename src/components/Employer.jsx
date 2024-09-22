@@ -1,4 +1,5 @@
 import Navbar2 from './Navbar2';
+import backgroundImage from '../assets/back.webp';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -98,8 +99,25 @@ const Freelancer = () => {
     return (
         <div className="bg-gray-100 min-h-screen">
             <Navbar2 />
-            <div className="text-black flex items-center justify-center min-h-[calc(100vh-64px)]">
-                <div className="w-full max-w-xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+            <div
+            style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+            }}
+            className="text-white flex items-center justify-center min-h-[calc(100vh-64px)]"
+            >
+                <div
+                    className="w-full max-w-xl mx-auto p-6 bg-white shadow-lg rounded-lg overflow-hidden glass-card"
+                    style={{
+                        background: 'rgba(255, 255, 255, 0.15)',  // Semi-transparent white
+                        backdropFilter: 'blur(10px)',  // Apply blur
+                        borderRadius: '15px',  // Rounded corners
+                        border: '1px solid rgba(255, 255, 255, 0.3)',  // Border for frosted glass effect
+                        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',  // Subtle shadow
+                    }}
+                >
                     <div className="p-4">
                         <div className="mt-4">
                             <label className="font-semibold">Name:</label>
@@ -109,10 +127,10 @@ const Freelancer = () => {
                                     name="name"
                                     value={formValues.name}
                                     onChange={handleInputChange}
-                                    className="text-lg ml-7 font-semibold text-gray-900 bg-gray-200 border-4 rounded-lg w-[30vw]"
+                                    className="text-lg ml-7 font-semibold text-white bg-gray-200 border-4 rounded-lg w-[30vw]"
                                 />
                             ) : (
-                                <h2 className="text-xl font-semibold text-gray-900">{profile.name}</h2>
+                                <h2 className="text-xl font-semibold text-white">{profile.name}</h2>
                             )}
                         </div>
                         <div className="mt-2">
@@ -122,13 +140,13 @@ const Freelancer = () => {
                                     name="description"
                                     value={formValues.description}
                                     onChange={handleInputChange}
-                                    className="mt-2 text-gray-600 bg-gray-200 rounded-lg -mb-12 w-full h-[25vh] resize-none"
+                                    className="mt-2 text-white bg-gray-200 rounded-lg w-full h-[25vh] resize-none"
                                 />
                             ) : (
-                                <p className="mt-2 text-gray-600">{profile.description}</p>
+                                <p className="mt-2 text-white">{profile.description}</p>
                             )}
                         </div>
-                        <div className='mt-20'>
+                        <div className="mt-20">
                             <label className="font-semibold">Mobile:</label>
                             {isEditing ? (
                                 <input

@@ -4,6 +4,11 @@ import jwt from 'jsonwebtoken';
 
 
 const userSchema = new Schema({
+    mobile: {
+        type: Number,
+        required: true,
+        unique: true,
+    },
     username: {
         type: String,
         required: true,

@@ -38,6 +38,33 @@ const generateAccessTokenAndRefreshTokens = async (userId) => {
 
 }
 
+const addSkills = asyncHandler(async (req, res) => {
+    if (req.user.role !== 'employee') {
+        return res.status(403).json({ message: 'Only employees can add skills', success: false })
+    }
+
+
+    const id = req.user?._id;
+    const { skills } = req.body;
+
+    // Find and update the employee's skills
+    const employee = await Employee.findById(id);
+    console.log("employee", employee)
+
+    if (!employee) {
+        return res.status(404).json({ message: 'Employee not found' });
+    }
+
+    // Update the skills array with the new skills
+    employee.skills = [...new Set([...employee.skills, ...skills])];;
+
+    // Save the updated employee document
+    await employee.save();
+
+    return res.status(200).json(new ApiResponse(200, employee, 'Skills added successfully'))
+
+})
+
 const getEmployeeById = async (req, res) => {
     try {
         const { employeeId } = req.params;
@@ -112,7 +139,7 @@ const updateEmployeeSkills = async (userId, newSkills) => {
 
 
 const registerUser = asyncHandler(async (req, res) => {
-    const { username, email, password, role } = req.body;
+    const { username, email, password, role, mobile } = req.body;
 
     // Check if the username or email already exists
     const existedUser = await User.findOne({ $or: [{ username }, { email }] });
@@ -123,9 +150,9 @@ const registerUser = asyncHandler(async (req, res) => {
 
     let user;
     if (role === 'freelancer') {
-        user = new Employee({ username, email, password, role });
+        user = new Employee({ username, email, password,mobile, role });
     } else if (role === 'employer') {
-        user = new Employer({ username, email, password, role });
+        user = new Employer({ username, email, password,mobile, role });
     } else {
         return res.status(400).json({ message: 'Choose your correct role from the dropdown', success: false });
     }
@@ -300,7 +327,7 @@ const updateUser = asyncHandler(async (req, res) => {
     }
 
     // Define allowed fields based on user role
-    let allowedUpdates = ['username', 'email', 'password']
+    let allowedUpdates = ['username', 'email', 'password', 'mobile']
 
     if (user.role === 'employee') {
         allowedUpdates = allowedUpdates.concat(['skills', 'jobPreferences', 'availabilityStatus'])
@@ -376,5 +403,6 @@ export {
     updateProfilePicture,
     getEmployeeById,
     updateEmployeeSkills,
-    getEmployeeByUsername
+    getEmployeeByUsername,
+    addSkills
 }

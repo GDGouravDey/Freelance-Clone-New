@@ -104,6 +104,28 @@ app.post('/api/v1/resume-recommend', async (req, res) => {
     }
 });
 
+app.post('/api/v1/recommend', async (req, res) => {
+    try {
+        if (!fs.existsSync(pdfFilePath)) {
+            return res.status(404).json({ message: 'File not found' });
+        }
+
+        const dataBuffer = fs.readFileSync(pdfFilePath);
+        const data = await pdfParse(dataBuffer);
+
+        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+        const prompt = "Give Recent Market Trends reagrding Freelancing and Market Forecasting of Freelancing Domains in an accurate using facts and figures if you can : " + data.text;
+
+        const result = await model.generateContent(prompt);
+        res.json({ extractedText: result.response.text() });
+    } catch (error) {
+        console.error('Error during PDF processing:', error);
+        res.status(500).json({ message: 'Error processing PDF' });
+    }
+});
+
 app.post('/api/v1/generate-chart-1', async (req, res) => {
     try {
         if (!fs.existsSync(pdfFilePath)) {
@@ -118,9 +140,11 @@ app.post('/api/v1/generate-chart-1', async (req, res) => {
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        const prompt = "Generate a 2D array in the format of [{Domain: 'DOMAIN_NAME', Proficiency: '72'}, ...] to represent the domains candidate knows (like Frontend, Backend, Machine Learning, Data Analysis, etc.) according to the resume and generate a proficiency value to determine proficiency in the domain between 0 to 100. Do not have an Individiual skill as a Domain. Have only two fields - Domain and Proficiency. Just give me the array in the method specified, no need of JSON or any word of explanation. This is the resume data = " + data.text;
+        const prompt = "Generate a 2D array in the format of [{Domain: 'DOMAIN_NAME', Demand_Level: '72'}, ...] to represent the freelancing domains and demand level for each domain / skillset where demand level is between 0 and 100 and start generating from [ to ] " + data.text;
 
         const result = await model.generateContent(prompt);
+        console.log(result.response.text());
+        
         res.json({ extractedText: result.response.text() });
     } catch (error) {
         console.error('Error during PDF processing:', error);
@@ -128,5 +152,29 @@ app.post('/api/v1/generate-chart-1', async (req, res) => {
     }
 });
 
+app.post('/api/v1/generate-chart-2', async (req, res) => {
+    try {
+        // if (!fs.existsSync(pdfFilePath)) {
+        //     return res.status(404).json({ message: 'File not found' });
+        // }
+        console.log('Hello');
+        
+
+        // const dataBuffer = fs.readFileSync(pdfFilePath);
+        // const data = await pdfParse(dataBuffer);
+
+        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+        const prompt = "Generate a 2D array in the format of [{Domain: 'DOMAIN_NAME', Demand: '72'}, ...] which roughly represents the Demand for Trending Domains like Data Science, Web Development, Mobile Development, etc. where Demand is between 0 and 100. Only include the array." ;
+
+        const result = await model.generateContent(prompt);
+        console.log(result.response.text())
+        res.json({ extractedText: result.response.text() });
+    } catch (error) {
+        console.error('Error :', error);
+        res.status(500).json({ message: 'Error' });
+    }
+});
 
 export { app };

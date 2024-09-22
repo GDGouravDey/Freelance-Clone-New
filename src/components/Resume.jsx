@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+
+import backgroundImage from '../assets/back.webp';
 import Navbar from './Navbar';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 
@@ -277,9 +279,14 @@ const Resume = () => {
   );
 
   return (
-    <div className="bg-gray-100 text-zinc-950 min-h-screen">
+    <div className="bg-gray-100 text-zinc-950 min-h-screen" style={{
+      backgroundImage: `url(${backgroundImage})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+  }}>
       <Navbar />
-      <div className="container mx-auto p-8">
+      <div className="container mx-auto p-8" >
         <h2 className="text-2xl font-bold mb-4">Upload Your Resume</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
@@ -295,7 +302,7 @@ const Resume = () => {
           />
           <button
             type="submit"
-            className="bg-[#8c52ff] text-white font-bold py-2 px-4 rounded"
+            className="bg-[#7839f8] text-white font-bold py-2 px-4 rounded"
           >
             Submit
           </button>
@@ -313,7 +320,7 @@ const Resume = () => {
             />
             <button
               onClick={addSkill}
-              className="bg-violet-500 text-white font-bold py-2 px-4 rounded"
+              className="bg-[#7839f8] text-white font-bold py-2 px-4 rounded"
             >
               Add Skill
             </button>
@@ -333,7 +340,7 @@ const Resume = () => {
               className="mt-4 bg-[#8c52ff] text-white font-bold py-2 px-4 rounded"
             >
               Save Skillset
-            </button> */}
+            </button>  */}
           </div>
         )}
 
@@ -348,14 +355,14 @@ const Resume = () => {
           </div>
         )}
 
-        {chartData.length > 0 && (
+        {/* {chartData.length > 0 && (
           <div className="mt-6">
             <h3 className="text-xl font-semibold mb-2">Bar Chart:</h3>
             {renderBarChart(chartData)}
           </div>
-        )}
+        )} */}
 
-        {isLoading && <div className="mt-4 text-center">Loading...</div>}
+        {isLoading && <div className="mt-4 text-white text-center">Loading...</div>}
       </div>
     </div>
   );

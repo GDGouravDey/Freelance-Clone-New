@@ -28,11 +28,11 @@ const Navbar = () => {
                         className="text-gray-100 transition-all duration-300 font-bold text-xl">
                         My Projects
                     </Link>
-                    <Link
+                    {/* <Link
                         to="/employer/findprojects"
                         className="text-gray-100 transition-all duration-300 font-bold text-xl">
                         Find Freelancers
-                    </Link>
+                    </Link> */}
                     <Link
                         to="/employer/market"
                         className="text-gray-100 transition-all duration-300 font-bold text-xl">

@@ -8,6 +8,7 @@ function ProjectDetail({ project, onClose }) {
     const [result, setResult] = useState(null);
     const [applicants, setApplicants] = useState([]);
     const [applicantDetails, setApplicantDetails] = useState({});
+    const [showRateInput, setShowRateInput] = useState(false);
 
     useEffect(() => {
         const fetchApplicants = async () => {
@@ -20,13 +21,13 @@ function ProjectDetail({ project, onClose }) {
                     });
                     console.log("Applicants:", response.data.data);
                     setApplicants(response.data.data);
-                    
+
                     // Fetch details for each applicant
                     response.data.data.forEach(applicant => {
                         fetchApplicantDetails(applicant.applicant._id);
                     });
-                    
-                    
+
+
                 } catch (error) {
                     console.log("An error occurred while fetching the applicants.");
                 }
@@ -36,29 +37,29 @@ function ProjectDetail({ project, onClose }) {
         fetchApplicants();
     }, [project]);
 
-const fetchApplicantDetails = async (applicantId) => {
-    try {
-        const response = await axios.get(`http://localhost:8000/api/v1/user/employee/${applicantId}`, {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-            }
-        });
+    const fetchApplicantDetails = async (applicantId) => {
+        try {
+            const response = await axios.get(`http://localhost:8000/api/v1/user/employee/${applicantId}`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                }
+            });
 
-        console.log("Response Data:", response.data);
+            console.log("Response Data:", response.data);
 
-        setApplicantDetails(prevDetails => {
-            // console.log("Previous Applicant Details:", prevDetails);
+            setApplicantDetails(prevDetails => {
+                // console.log("Previous Applicant Details:", prevDetails);
 
-            return {
-                ...prevDetails,
-                [applicantId]: response.data
-            };
-        });
-        // console.log("Current applicantDetails:", applicantDetails);
-    } catch (error) {
-        console.error("Error fetching applicant details:", error);
-    }
-};
+                return {
+                    ...prevDetails,
+                    [applicantId]: response.data
+                };
+            });
+            // console.log("Current applicantDetails:", applicantDetails);
+        } catch (error) {
+            console.error("Error fetching applicant details:", error);
+        }
+    };
 
 
     const handleFileChange = (event) => {
@@ -146,17 +147,17 @@ const fetchApplicantDetails = async (applicantId) => {
                     <span className={`inline-block px-2 py-0.5 rounded text-white ${status === 'available' ? 'bg-green-500' :
                         status === 'in progress' ? 'bg-yellow-500' :
                             'bg-blue-500'
-                    }`}>
+                        }`}>
                         {status}
                     </span>
-                    <button className='inline-block px-4 py-1 rounded text-white ml-[65%] bg-blue-500'>Apply</button>
+                    {/* <button className='inline-block px-4 py-1 rounded text-white ml-[65%] bg-blue-500'>Apply</button> */}
                 </div>
-                
+
             </div>
 
             <div className="bg-white shadow-md rounded-lg p-4 mt-6">
                 <h3 className="text-lg font-bold mb-2">Apply for this job:</h3>
-                
+
             </div>
 
             <div className="bg-white shadow-md rounded-lg p-4 mt-6">
@@ -184,7 +185,7 @@ const fetchApplicantDetails = async (applicantId) => {
                         </div>
                     ))
                 )}
-            </div> 
+            </div>
 
             <div className="bg-white shadow-md rounded-lg p-4 mt-6">
                 <h3 className="text-lg font-bold mb-2">Skill Gap Analysis</h3>
@@ -201,6 +202,30 @@ const fetchApplicantDetails = async (applicantId) => {
                             className="mt-2 block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer"
                         />
                     </div>
+                    {!showRateInput ? (
+                        <button
+                            onClick={handleApplyClick}
+                            className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
+                        >
+                            Apply Now
+                        </button>
+                    ) : (
+                        <div>
+                            <input
+                                type="number"
+                                value={proposedRate}
+                                onChange={(e) => setProposedRate(e.target.value)}
+                                placeholder="Enter your proposed rate"
+                                className="border rounded px-4 py-2 mt-2 w-full"
+                            />
+                            <button
+                                onClick={handleSubmitClick}
+                                className="bg-green-500 text-white px-4 py-2 rounded mt-2"
+                            >
+                                Submit Application
+                            </button>
+                        </div>
+                    )}
                     <button
                         type="submit"
                         className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600"
@@ -232,6 +257,7 @@ const fetchApplicantDetails = async (applicantId) => {
                         </ul>
                     </div>
                 )}
+
             </div>
         </div>
     );

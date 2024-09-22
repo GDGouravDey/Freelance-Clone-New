@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import backgroundImage from '../assets/back.webp';
 import Navbar from './Navbar';
 import ProjectCard from './ProjectCard';
 import axios from 'axios';
@@ -40,7 +41,7 @@ function MyProjects() {
         return (
             <div className="bg-gray-100 min-h-screen">
                 <Navbar />
-                <div className="text-black flex flex-col items-center justify-center min-h-[calc(100vh-64px)]">
+                <div className="text-black flex flex-col items-center justify-center min-h-[calc(100vh-64px)]" >
                     <p>Loading...</p>
                 </div>
             </div>
@@ -61,7 +62,12 @@ function MyProjects() {
     return (
         <div className="bg-gray-100 min-h-screen">
             <Navbar />
-            <div className="text-black flex flex-col items-center justify-center min-h-[calc(100vh-64px)]">
+            <div className="text-black flex flex-col items-center justify-center min-h-[calc(100vh-64px)]" style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+            }}>
                 {projects.length === 0 ? (
                     <p>No available projects</p>
                 ) : (
